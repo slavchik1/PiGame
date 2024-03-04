@@ -16,7 +16,6 @@ const byte ports9[] = {12, 11, 10, 9, 7, 6};
 
 
 void setup() {
-  Serial.begin(9600);
   pinMode(buz, OUTPUT);
   pinMode(12, OUTPUT);
   pinMode(11, OUTPUT);
