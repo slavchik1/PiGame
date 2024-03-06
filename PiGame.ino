@@ -1,5 +1,5 @@
-#include "LiquidCrystal_I2C.h"
 #define _LCD_TYPE 1
+#include "LiquidCrystal_I2C.h"
 #include "LCD_1602_RUS_ALL.h"
 
 
@@ -19,23 +19,19 @@ const byte ports6[] = {12, 11, 10, 8, 7, 6};
 const byte ports7[] = {10, 9, 6};
 const byte ports8[] = {12, 11, 10, 9, 8, 7, 6};
 const byte ports9[] = {12, 11, 10, 9, 7, 6};
+const int b0 = A0;
+const int b1 = A1;
+const int b2 = A2;
+const int b3 = A3;
+const byte b4 = 0;
+const byte b5 = 1;
+const byte b6 = 2;
+const byte b7 = 3;
+const byte b8 = 4;
+const byte b9 = 5;
 
 
 
-
-void setup() {
-  pinMode(buz, OUTPUT);
-  pinMode(12, OUTPUT);
-  pinMode(11, OUTPUT);
-  pinMode(10, OUTPUT);
-  pinMode(9, OUTPUT);
-  pinMode(8, OUTPUT);
-  pinMode(7, OUTPUT);
-  pinMode(6, OUTPUT);
-  lcd.init();
-  lcd.backlight();
-  lcd.createChar(0, piChar);
-}
 
 
 void endShowing(int ton) {
@@ -92,10 +88,46 @@ void makeNumber(int n) {
   }
 }
 
+int getDigit() {
+  lcd.setCursor(0, 0);
+  lcd.print(String(digitalRead(b6)));
+  lcd.setCursor(8, 0);
+  lcd.print(String(digitalRead(b7)));
+  lcd.setCursor(0, 1);
+  lcd.print(String(digitalRead(b8)));
+  lcd.setCursor(8, 1);
+  lcd.print(String(digitalRead(b9)));
+  delay(500);
+}
+
+
+
+void setup() {
+  pinMode(buz, OUTPUT);
+  pinMode(12, OUTPUT);
+  pinMode(11, OUTPUT);
+  pinMode(10, OUTPUT);
+  pinMode(9, OUTPUT);
+  pinMode(8, OUTPUT);
+  pinMode(7, OUTPUT);
+  pinMode(6, OUTPUT);
+  pinMode(b0, INPUT);
+  pinMode(b1, INPUT);
+  pinMode(b2, INPUT);
+  pinMode(b3, INPUT);
+  pinMode(b4, INPUT);
+  pinMode(b5, INPUT);
+  pinMode(b6, INPUT);
+  pinMode(b7, INPUT);
+  pinMode(b8, INPUT);
+  pinMode(b9, INPUT);
+  lcd.init();
+  lcd.backlight();
+  lcd.createChar(0, piChar);
+  Serial.begin(9600);//
+}
 
 void loop() {
-  lcd.setCursor(0, 0);
-  lcd.write(byte(0));
-  lcd.setCursor(1, 0);
-  lcd.print("=3,14...");
+  getDigit();
+  lcd.clear();
 }
