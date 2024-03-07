@@ -1,9 +1,25 @@
 #define _LCD_TYPE 1
+#define DECODE_HASH
 #include "LiquidCrystal_I2C.h"
 #include "LCD_1602_RUS_ALL.h"
+#include "IRremote.h"
 
 
 LCD_1602_RUS lcd(0x27, 16, 2);
+IRrecv irrecv(5);
+decode_results result;
+/*
+0: 465573243
+1: 3238126971
+2: 2538093563
+3: 4039382595
+4: 2534850111
+5: 1033561079
+6: 1635910171
+7: 2351064443
+8: 1217346747
+9: 71952287
+*/
 
 
 const int pi[] = {3, 1, 4, 1, 5, 9, 2, 6, 5, 3, 5, 8, 9, 7, 9, 3, 2, 3, 8, 4, 6, 2, 6, 4, 3, 3, 8, 3, 2, 7, 9, 5, 0, 2, 8, 8, 4, 1, 9, 7, 1, 6, 9, 3, 9, 9, 3, 7, 5, 1, 0, 5, 8, 2, 0, 9, 7, 4, 9, 4, 4, 5, 9, 2, 3, 0, 7, 8, 1, 6, 4, 0, 6, 2, 8, 6, 2, 0, 8, 9, 9, 8, 6, 2, 8, 0, 3, 4, 8, 2, 5, 3, 4, 2, 1, 1, 7, 0, 6, 7, 9, 8, 2, 1, 4, 8, 0, 8, 6, 5, 1, 3, 2, 8, 2, 3, 0, 6, 6, 4, 7, 0, 9, 3, 8, 4, 4, 6, 0, 9, 5, 5, 0, 5, 8, 2, 2, 3, 1, 7, 2, 5, 3, 5, 9, 4, 0, 8, 1, 2, 8, 4, 8, 1, 1, 1, 7, 4, 5, 0};
@@ -80,6 +96,15 @@ void makeNumber(int n) {
 
 
 
+int getDigit() {
+  if (irrecv.decode(&result)) {
+    Serial.println(String(result.value));
+    irrecv.resume();
+  }
+}
+
+
+
 void setup() {
   pinMode(buz, OUTPUT);
   pinMode(12, OUTPUT);
@@ -89,12 +114,13 @@ void setup() {
   pinMode(8, OUTPUT);
   pinMode(7, OUTPUT);
   pinMode(6, OUTPUT);
+  irrecv.enableIRIn();
   lcd.init();
   lcd.backlight();
   lcd.createChar(0, piChar);
+  Serial.begin(9600);
 }
 
 void loop() {
   getDigit();
-  lcd.clear();
 }
