@@ -1,13 +1,10 @@
 #define _LCD_TYPE 1
-#define DECODE_HASH
 #include "LiquidCrystal_I2C.h"
 #include "LCD_1602_RUS_ALL.h"
-#include "IRremote.h"
+#include "IRremote.hpp"
 
 
 LCD_1602_RUS lcd(0x27, 16, 2);
-IRrecv irrecv(5);
-decode_results result;
 
 
 const int pi[] = {3, 1, 4, 1, 5, 9, 2, 6, 5, 3, 5, 8, 9, 7, 9, 3, 2, 3, 8, 4, 6, 2, 6, 4, 3, 3, 8, 3, 2, 7, 9, 5, 0, 2, 8, 8, 4, 1, 9, 7, 1, 6, 9, 3, 9, 9, 3, 7, 5, 1, 0, 5, 8, 2, 0, 9, 7, 4, 9, 4, 4, 5, 9, 2, 3, 0, 7, 8, 1, 6, 4, 0, 6, 2, 8, 6, 2, 0, 8, 9, 9, 8, 6, 2, 8, 0, 3, 4, 8, 2, 5, 3, 4, 2, 1, 1, 7, 0, 6, 7, 9, 8, 2, 1, 4, 8, 0, 8, 6, 5, 1, 3, 2, 8, 2, 3, 0, 6, 6, 4, 7, 0, 9, 3, 8, 4, 4, 6, 0, 9, 5, 5, 0, 5, 8, 2, 2, 3, 1, 7, 2, 5, 3, 5, 9, 4, 0, 8, 1, 2, 8, 4, 8, 1, 1, 1, 7, 4, 5, 0};
@@ -83,43 +80,48 @@ void makeNumber(int n) {
 
 int getDigit() {
   while (true) {
-    if (irrecv.decode(&result)) {
-      Serial.println("ir=" + result.value);
-      if (result.value == 465573243) {
-        irrecv.resume();
+    if (IrReceiver.decode()) {
+      Serial.print("IrReceiver.decodedIRData.decodedRawData=");
+      Serial.println(IrReceiver.decodedIRData.decodedRawData);
+      if (IrReceiver.decodedIRData.decodedRawData == 2907897600) {
+        IrReceiver.resume();
         return 0;
-      } else if (result.value == 3238126971) {
-        irrecv.resume();
+      } else if (IrReceiver.decodedIRData.decodedRawData == 3910598400) {
+        IrReceiver.resume();
         return 1;
-      } else if (result.value == 2538093563) {
-        irrecv.resume();
+      } else if (IrReceiver.decodedIRData.decodedRawData == 3860463360) {
+        IrReceiver.resume();
         return 2;
-      } else if (result.value == 4039382595) {
-        irrecv.resume();
+      } else if (IrReceiver.decodedIRData.decodedRawData == 4061003520) {
+        IrReceiver.resume();
         return 3;
-      } else if (result.value == 2534850111) {
-        irrecv.resume();
+      } else if (IrReceiver.decodedIRData.decodedRawData == 4077715200) {
+        IrReceiver.resume();
         return 4;
-      } else if (result.value == 1033561079) {
-        irrecv.resume();
+      } else if (IrReceiver.decodedIRData.decodedRawData == 3877175040) {
+        IrReceiver.resume();
         return 5;
-      } else if (result.value == 1635910171) {
-        irrecv.resume();
+      } else if (IrReceiver.decodedIRData.decodedRawData == 2707357440) {
+        IrReceiver.resume();
         return 6;
-      } else if (result.value == 2351064443) {
-        irrecv.resume();
+      } else if (IrReceiver.decodedIRData.decodedRawData == 4144561920) {
+        IrReceiver.resume();
         return 7;
-      } else if (result.value == 1217346747) {
-        irrecv.resume();
+      } else if (IrReceiver.decodedIRData.decodedRawData == 3810328320) {
+        IrReceiver.resume();
         return 8;
-      } else if (result.value == 71952287) {
-        irrecv.resume();
+      } else if (IrReceiver.decodedIRData.decodedRawData == 2774204160) {
+        IrReceiver.resume();
         return 9;
+      } else if (IrReceiver.decodedIRData.decodedRawData == 0) {
+        IrReceiver.resume();
+        continue;
       } else {
-        irrecv.resume();
+        IrReceiver.resume();
         return -1;
       }
     }
+    delay(100); // Small delay to prevent overwhelming the serial output
   }
 }
 
@@ -149,7 +151,9 @@ void setup() {
   pinMode(8, OUTPUT);
   pinMode(7, OUTPUT);
   pinMode(6, OUTPUT);
-  irrecv.enableIRIn();
+
+  IrReceiver.begin(5);
+
   lcd.init();
   lcd.backlight();
   lcd.setCursor(0, 0);
@@ -157,10 +161,10 @@ void setup() {
   makeNumber(8);
   delay(1000);
 
-  /*lcd.print("HaTиcHiTь");
+  lcd.print("HaTиcHiTь");
   newLine("бyдь яKy KHoпKy.");
 
-  lcd.print("BiTaю y п гpi.");
+  /*lcd.print("BiTaю y п гpi.");
   wait();
 
   lcd.print("Гpy для BиBчeHHя");
@@ -188,16 +192,16 @@ void setup() {
   wait();
 
   lcd.print("Правила яcHi,");
-  newLine("TaK щo.");*/
+  newLine("TaK щo.");
 
   lcd.print("Поїхали!");
-  wait();
+  wait();*/
 
 }
 
 void loop() {
-  Serial.println("Game=" + String(game()));
-  delay(10000);
+  // game();
+  Serial.println("getdigit=" + String(getDigit()));
 }
 
 int game() {
