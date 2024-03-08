@@ -126,14 +126,15 @@ void wait() {
   getDigit();
   lcd.clear();
   lcd.setCursor(0, 0);
+  tone(buz, 500);
+  delay(100);
+  noTone(buz);
 }
 
 void newLine(String text) {
   lcd.setCursor(0, 1);
   lcd.print(text);
-  getDigit();
-  lcd.clear();
-  lcd.setCursor(0, 0);
+  wait();
 }
 
 
@@ -151,6 +152,7 @@ void setup() {
   lcd.init();
   lcd.backlight();
   lcd.setCursor(0, 0);
+  makeNumber(8);
 
   lcd.print("Щoб пpoдoBж HaTи");
   newLine("cH бyд яKy KHoпK");
@@ -197,4 +199,6 @@ void loop() {
   game();
 }
 
-void game();
+void game() {
+  wait();
+}
