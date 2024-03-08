@@ -10,7 +10,18 @@ IRrecv irrecv(5);
 decode_results result;
 
 
+const int pi[] = {3, 1, 4, 1, 5, 9, 2, 6, 5, 3, 5, 8, 9, 7, 9, 3, 2, 3, 8, 4, 6, 2, 6, 4, 3, 3, 8, 3, 2, 7, 9, 5, 0, 2, 8, 8, 4, 1, 9, 7, 1, 6, 9, 3, 9, 9, 3, 7, 5, 1, 0, 5, 8, 2, 0, 9, 7, 4, 9, 4, 4, 5, 9, 2, 3, 0, 7, 8, 1, 6, 4, 0, 6, 2, 8, 6, 2, 0, 8, 9, 9, 8, 6, 2, 8, 0, 3, 4, 8, 2, 5, 3, 4, 2, 1, 1, 7, 0, 6, 7, 9, 8, 2, 1, 4, 8, 0, 8, 6, 5, 1, 3, 2, 8, 2, 3, 0, 6, 6, 4, 7, 0, 9, 3, 8, 4, 4, 6, 0, 9, 5, 5, 0, 5, 8, 2, 2, 3, 1, 7, 2, 5, 3, 5, 9, 4, 0, 8, 1, 2, 8, 4, 8, 1, 1, 1, 7, 4, 5, 0};
 const byte buz = 13;
+const byte ports0[] = {12, 10, 9, 8, 7, 6};
+const byte ports1[] = {9, 6};
+const byte ports2[] = {11, 10, 9, 8, 7};
+const byte ports3[] = {11, 10, 9, 7, 6};
+const byte ports4[] = {12, 11, 9, 6};
+const byte ports5[] = {12, 11, 10, 7, 6};
+const byte ports6[] = {12, 11, 10, 8, 7, 6};
+const byte ports7[] = {10, 9, 6};
+const byte ports8[] = {12, 11, 10, 9, 8, 7, 6};
+const byte ports9[] = {12, 11, 10, 9, 7, 6};
 
 
 
@@ -31,23 +42,12 @@ void endShowing(int ton) {
 
 template<size_t Size>
 void showNumber(const byte (&ports)[Size]) {
-  for (int i; i < Size; i++) {
+  for (int i = 0; i < Size; i++) {
     digitalWrite(ports[i], HIGH);
   }
 }
 
 void makeNumber(int n) {
-  const byte ports0[] = {12, 10, 9, 8, 7, 6};
-  const byte ports1[] = {9, 6};
-  const byte ports2[] = {11, 10, 9, 8, 7};
-  const byte ports3[] = {11, 10, 9, 7, 6};
-  const byte ports4[] = {12, 11, 9, 6};
-  const byte ports5[] = {12, 11, 10, 7, 6};
-  const byte ports6[] = {12, 11, 10, 8, 7, 6};
-  const byte ports7[] = {10, 9, 6};
-  const byte ports8[] = {12, 11, 10, 9, 8, 7, 6};
-  const byte ports9[] = {12, 11, 10, 9, 7, 6};
-
   if (n == 0) {
     showNumber(ports0);
     endShowing(500);
@@ -84,6 +84,7 @@ void makeNumber(int n) {
 int getDigit() {
   while (true) {
     if (irrecv.decode(&result)) {
+      Serial.println("ir=" + result.value);
       if (result.value == 465573243) {
         irrecv.resume();
         return 0;
@@ -152,13 +153,14 @@ void setup() {
   lcd.init();
   lcd.backlight();
   lcd.setCursor(0, 0);
+  Serial.begin(9600);
   makeNumber(8);
   delay(1000);
 
-  lcd.print("Щoб пpoдoBж HaTи");
-  newLine("cH бyд яKy KHoпK");
+  /*lcd.print("HaTиcHiTь");
+  newLine("бyдь яKy KHoпKy.");
 
-  lcd.print("BiTaю y п гpy.");
+  lcd.print("BiTaю y п гpi.");
   wait();
 
   lcd.print("Гpy для BиBчeHHя");
@@ -173,23 +175,20 @@ void setup() {
   lcd.print("KoMи числа п.");
   wait();
 
-  lcd.print("y п грi");
-  newLine("бyдyTь");
+  lcd.print("y п грi бyдyTь");
+  newLine("3'яBляTиcя цифpи");
 
-  lcd.print("3aгapaTиcя");
-  newLine("цифpи");
-
-  lcd.print("чиcлa п y");
-  newLine("пoпopядKу,");
+  lcd.print("чиcлa п");
+  newLine("пo пopядKу,");
 
   lcd.print("а Baшa цiль -");
-  newLine("HaжиMaTи їx.");
+  newLine("HaTиcKaTи їx");
 
   lcd.print("ПoпopядKy.");
   wait();
 
   lcd.print("Правила яcHi,");
-  newLine("TaK щo.");
+  newLine("TaK щo.");*/
 
   lcd.print("Поїхали!");
   wait();
@@ -197,9 +196,33 @@ void setup() {
 }
 
 void loop() {
-  game();
+  Serial.println("Game=" + String(game()));
+  delay(10000);
 }
 
-void game() {
-  const int pi[] = {3, 1, 4, 1, 5, 9, 2, 6, 5, 3, 5, 8, 9, 7, 9, 3, 2, 3, 8, 4, 6, 2, 6, 4, 3, 3, 8, 3, 2, 7, 9, 5, 0, 2, 8, 8, 4, 1, 9, 7, 1, 6, 9, 3, 9, 9, 3, 7, 5, 1, 0, 5, 8, 2, 0, 9, 7, 4, 9, 4, 4, 5, 9, 2, 3, 0, 7, 8, 1, 6, 4, 0, 6, 2, 8, 6, 2, 0, 8, 9, 9, 8, 6, 2, 8, 0, 3, 4, 8, 2, 5, 3, 4, 2, 1, 1, 7, 0, 6, 7, 9, 8, 2, 1, 4, 8, 0, 8, 6, 5, 1, 3, 2, 8, 2, 3, 0, 6, 6, 4, 7, 0, 9, 3, 8, 4, 4, 6, 0, 9, 5, 5, 0, 5, 8, 2, 2, 3, 1, 7, 2, 5, 3, 5, 9, 4, 0, 8, 1, 2, 8, 4, 8, 1, 1, 1, 7, 4, 5, 0};
+int game() {
+  int t = 1;
+  String line1 = "п=";
+  String line2 = "";
+
+  while (true) {
+    if (t > 15) {
+      return -1;
+    } else {
+      for (int i = 0; i <= t; i++) {
+        Serial.println("i=" + String(i));
+        makeNumber(pi[i]);
+      }
+      for (int i = 0; i <= t; i++) {
+        int d = getDigit();
+        Serial.println("getDigit=" + String(d));
+        if (d == pi[i]) {
+          lcd.print("a");
+        } else {
+          return t;
+        }
+      }
+      t++;
+    }
+  }
 }
