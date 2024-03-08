@@ -124,6 +124,21 @@ int getDigit() {
   }
 }
 
+void wait() {
+  getDigit();
+  lcd.clear();
+  lcd.setCursor(0, 0);
+}
+
+void newLine(String text) {
+  lcd.setCursor(0, 1);
+  lcd.print(text);
+  getDigit();
+  lcd.clear();
+  lcd.setCursor(0, 0);
+}
+
+
 
 
 void setup() {
