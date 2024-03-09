@@ -28,13 +28,16 @@ const byte ports9[] = {12, 11, 10, 9, 7, 6};
 
 
 void endShowing(int ton) {
-    digitalWrite(12, LOW);
-    digitalWrite(11, LOW);
-    digitalWrite(10, LOW);
-    digitalWrite(9, LOW);
-    digitalWrite(8, LOW);
-    digitalWrite(7, LOW);
-    digitalWrite(6, LOW);
+  //tone(buz, ton);
+  delay(1000);
+  //noTone(buz);
+  digitalWrite(12, LOW);
+  digitalWrite(11, LOW);
+  digitalWrite(10, LOW);
+  digitalWrite(9, LOW);
+  digitalWrite(8, LOW);
+  digitalWrite(7, LOW);
+  digitalWrite(6, LOW);
 }
 
 template<size_t Size>
@@ -42,9 +45,6 @@ void showNumber(const byte (&ports)[Size]) {
   for (int i; i < Size; i++) {
     digitalWrite(ports[i], HIGH);
   }
-  // tone(buz, ton);
-  delay(1000);
-  // noTone(buz);
 }
 
 void makeNumber(int n) {
@@ -197,7 +197,23 @@ void setup() {
 }
 
 void loop() {
-  game();
+  int gameResult = game();
+  if (gameResult == -1) {
+    lcd.clear();
+    lcd.setCursor(0, 0);
+    lcd.print("   Bи BиBчили");
+    newLine("  yci 159 зпK!");
+  } else if (gameResult == 0) {
+        lcd.clear();
+    lcd.setCursor(0, 0);
+    lcd.print("   Bи BиBчили");
+    newLine("     Hiчoгo!");
+  } else {
+    lcd.clear();
+    lcd.setCursor(0, 0);
+    lcd.print("   Bи BиBчили");
+    newLine("     " + String(gameResult - 1) + " зпK!");
+  }
 }
 
 int game() {
@@ -206,7 +222,7 @@ int game() {
   String line2 = "";
 
   while (true) {
-    if (t > 159) {
+    if (t > 2) {
       return -1;
     } else {
       for (int i = 0; i <= t; i++) {
