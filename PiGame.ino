@@ -202,6 +202,10 @@ void setup() {
 }
 
 void loop() {
+  game();
+}
+
+int game() {
   Serial.println(getDigit());
   delay(500);
 }
