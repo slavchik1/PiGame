@@ -6,7 +6,7 @@
 
 
 LCD_1602_RUS lcd(0x27, 16, 2);
-IRrecv irrecv(5);
+IRrecv irrecv(2);
 decode_results result;
 
 
@@ -28,9 +28,6 @@ const byte ports9[] = {12, 11, 10, 9, 7, 6};
 
 
 void endShowing(int ton) {
-    tone(buz, ton);
-    delay(1000);
-    noTone(buz);
     digitalWrite(12, LOW);
     digitalWrite(11, LOW);
     digitalWrite(10, LOW);
@@ -45,6 +42,9 @@ void showNumber(const byte (&ports)[Size]) {
   for (int i; i < Size; i++) {
     digitalWrite(ports[i], HIGH);
   }
+  // tone(buz, ton);
+  delay(1000);
+  // noTone(buz);
 }
 
 void makeNumber(int n) {
@@ -155,13 +155,14 @@ void setup() {
   lcd.init();
   lcd.backlight();
   Serial.begin(9600);
-
   lcd.setCursor(0, 0);
+  makeNumber(8);
+  delay(500);
 
-  lcd.print("Щoб пpoдoBж HaTи");
-  newLine("cH бyд яKy KHoпK");
+  lcd.print("HaTиcHiTь");
+  newLine("бyдь яKy KHoпKy.");
 
-  lcd.print("BiTaю y п гpy.");
+  lcd.print("BiTaю y п гpi.");
   wait();
 
   lcd.print("Гpy для BиBчeHHя");
@@ -176,20 +177,14 @@ void setup() {
   lcd.print("KoMи числа п.");
   wait();
 
-  lcd.print("y п грi");
-  newLine("бyдyTь");
+  lcd.print("y п грi бyдyTь");
+  newLine("3'яBляTиcя цифpи");
 
-  lcd.print("3aгapaTиcя");
-  newLine("цифpи");
-
-  lcd.print("3aгapaTиcя");
-  newLine("цифpи");
-
-  lcd.print("чиcлa п y");
-  newLine("пoпopядKу,");
+  lcd.print("чиcлa п");
+  newLine("пo пopядKу,");
 
   lcd.print("а Baшa цiль -");
-  newLine("HaжиMaTи їx.");
+  newLine("HaTиcKaTи їx");
 
   lcd.print("ПoпopядKy.");
   wait();
@@ -206,6 +201,29 @@ void loop() {
 }
 
 int game() {
-  Serial.println(getDigit());
-  delay(500);
+  int t = 0;
+  String line1 = "п=";
+  String line2 = "";
+
+  while (true) {
+    if (t > 159) {
+      return -1;
+    } else {
+      for (int i = 0; i <= t; i++) {
+        Serial.println("i=" + String(i));
+        makeNumber(pi[i]);
+      }
+      delay(100);
+      for (int i = 0; i <= t; i++) {
+        int d = getDigit();
+        Serial.println("getDigit=" + String(d));
+        if (d == pi[i]) {
+          lcd.print("a");
+        } else {
+          return t;
+        }
+      }
+      t++;
+    }
+  }
 }
