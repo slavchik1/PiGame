@@ -160,40 +160,7 @@ void setup() {
   delay(500);
 
   lcd.print("HaTиcHiTь");
-  newLine("бyдь яKy KHoпKy.");
-
-  lcd.print("BiTaю y п гpi.");
-  wait();
-
-  lcd.print("Гpy для BиBчeHHя");
-  newLine("чиcла п.");
-
-  lcd.print("Цiль гpи - BчиTи");
-  newLine("чиcлo п.");
-
-  lcd.print("П гpa пiдTpиMyє");
-  newLine("159 3HaKiB пicля");
-
-  lcd.print("KoMи числа п.");
-  wait();
-
-  lcd.print("y п грi бyдyTь");
-  newLine("3'яBляTиcя цифpи");
-
-  lcd.print("чиcлa п");
-  newLine("пo пopядKу,");
-
-  lcd.print("а Baшa цiль -");
-  newLine("HaTиcKaTи їx");
-
-  lcd.print("ПoпopядKy.");
-  wait();
-
-  lcd.print("Правила яcHi,");
-  newLine("TaK щo.");
-
-  lcd.print("Поїхали!");
-  wait();
+  newLine("бyдь яKy цифpy.");
 }
 
 void loop() {
@@ -212,7 +179,7 @@ void loop() {
     lcd.clear();
     lcd.setCursor(0, 0);
     lcd.print("   Bи BиBчили");
-    newLine("     " + String(gameResult - 1) + " зпK!");
+    newLine("    " + String(gameResult - 1) + " 3HaKiB!");
   }
 }
 
@@ -222,7 +189,7 @@ int game() {
   String line2 = "";
 
   while (true) {
-    if (t > 2) {
+    if (t > 159) {
       return -1;
     } else {
       for (int i = 0; i <= t; i++) {
