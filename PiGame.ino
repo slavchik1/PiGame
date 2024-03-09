@@ -187,6 +187,10 @@ int game() {
   int t = 0;
   String line1 = "п=";
   String line2 = "";
+  
+  lcd.clear();
+  lcd.setCursor(13, 0);
+  lcd.print("Зн.");
 
   while (true) {
     if (t > 159) {
@@ -201,11 +205,13 @@ int game() {
         int d = getDigit();
         Serial.println("getDigit=" + String(d));
         if (d == pi[i]) {
-          lcd.print("a");
+          Serial.print("test");
         } else {
           return t;
         }
       }
+      lcd.setCursor(13, 1);
+      lcd.print(String(t));
       t++;
     }
   }
