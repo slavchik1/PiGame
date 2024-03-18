@@ -185,8 +185,8 @@ void loop() {
 
 int game() {
   int t = 0;
-  String line1 = "п=";
-  String line2 = "";
+  // String line1 = "п=";
+  // String line2 = "";
   
   lcd.clear();
   lcd.setCursor(13, 0);
