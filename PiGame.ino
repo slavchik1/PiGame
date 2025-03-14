@@ -112,12 +112,13 @@ int getDigit() {
           // IrReceiver.printIRResultShort(&Serial);
           // IrReceiver.printIRResultRawFormatted(&Serial, true);
 
-          Serial.println();
-
           /*
           * Finally, check the received data and perform actions according to the received command
           */
           auto data = IrReceiver.decodedIRData.decodedRawData; // uint32_t on 8 and 16 bit CPUs and uint64_t on 32 and 64 bit CPUs
+
+          Serial.println(data);
+
           if (IrReceiver.decodedIRData.flags & IRDATA_FLAGS_IS_REPEAT) {
               Serial.println(F("Repeat received. Here you can repeat the same action as before."));
           } else {
@@ -127,34 +128,34 @@ int getDigit() {
 
               // Serial.print(F("IR received = "));
               // Serial.println(data);
-              if (data == 465573243) {
+              if (data == 3578881928) {
                 return 0;
               }
-              if (data == 3238126971) {
+              if (data == 1563581317) {
                 return 1;
               }
-              if (data == 2538093563){
+              if (data == 3493448789){
                 return 2;
               } 
-              if (data == 4039382595){
+              if (data == 3443115932){
                 return 3;
               } 
-              if (data == 2534850111){
+              if (data == 1968470890){
                 return 4;
               }
-              if (data == 1033561079){
+              if (data == 2582157148){
                 return 5;
               } 
               if (data == 1635910171){
                 return 6;
               } 
-              if (data == 2351064443){
+              if (data == 982405227){
                 return 7;
               } 
-              if (data == 1217346747){
+              if (data == 3788388948){
                 return 8;
               } 
-              if (data == 71952287){
+              if (data == 1057179249){
                 return 9;
               } 
 
@@ -211,16 +212,11 @@ void loop() {
     lcd.setCursor(0, 0);
     lcd.print("   Bи BиBчили");
     newLine("  yci 159 зпK!");
-  } else if (gameResult == 0) {
-        lcd.clear();
-    lcd.setCursor(0, 0);
-    lcd.print("   Bи BиBчили");
-    newLine("     Hiчoгo!");
   } else {
     lcd.clear();
     lcd.setCursor(0, 0);
     lcd.print("   Bи BиBчили");
-    newLine("    " + String(gameResult - 1) + " 3HaKiB!");
+    newLine("    " + String(gameResult) + " 3HaKiB!");
   }
 }
 
@@ -230,8 +226,8 @@ int game() {
   // String line2 = "";
   
   lcd.clear();
-  lcd.setCursor(13, 0);
-  lcd.print("Зн.");
+  lcd.setCursor(1, 0);
+  lcd.print("3HaKiB BиBчeHo:");
 
   while (true) {
     if (t > 159) {
@@ -252,7 +248,7 @@ int game() {
         }
       }
       lcd.setCursor(13, 1);
-      lcd.print(String(t));
+      lcd.print(String(t + 1));
       t++;
     }
   }
